@@ -1,0 +1,18 @@
+<div class="container" *ngIf="!loading">
+  <div *ngIf="error" class="text-danger">{{ error }}</div>
+  <div *ngIf="guide">
+    <h2>{{ guide.titre }}</h2>
+    <p>{{ guide.description }}</p>
+    <p><strong>Durée:</strong> {{ guide.nbJour }} jours</p>
+    <p><strong>Mobilité:</strong> {{ guide.mobilite }}</p>
+    <h4>Activités</h4>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let a of guide.activites">
+        <h5>{{ a.titre }}</h5>
+        <p>{{ a.description }}</p>
+        <p><small>{{ a.horaires }} — {{ a.adresse }}</small></p>
+      </li>
+    </ul>
+  </div>
+</div>
+<div *ngIf="loading" class="container"><p>Chargement...</p></div>

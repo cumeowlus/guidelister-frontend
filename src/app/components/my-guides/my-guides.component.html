@@ -1,0 +1,17 @@
+<div class="container">
+  <h3>Mes Guides</h3>
+  <div class="mb-2">
+    <input class="form-control" placeholder="Rechercher..." [(ngModel)]="filter" (input)="applyFilter()" />
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-3" *ngFor="let g of filtered">
+      <div class="card" (click)="openGuide(g.id)" style="cursor:pointer">
+        <div class="card-body">
+          <h5 class="card-title">{{ g.titre }}</h5>
+          <p class="card-text">{{ g.description }}</p>
+          <p class="card-text"><small class="text-muted">{{ g.nbJour }} jours</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
