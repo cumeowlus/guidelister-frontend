@@ -1,16 +1,29 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { AppModule } from './app.module';
-import { bootstrapApplication } from '@angular/platform-browser';
+import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
+import { HeaderComponent } from './components/header/header.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AppModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
+  standalone: true,
+
+  imports: [RouterOutlet, HeaderComponent, NgIf]
 })
 export class AppComponent {
   protected readonly title = signal('guidelister-frontend');
-}
+  showHeader: boolean = true;
 
-bootstrapApplication(AppComponent);
+  constructor(private router: Router) {
+    router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        if (val.url == '/' || val.url == '/login') {
+          this.showHeader = false;
+        } else {
+          this.showHeader = true;
+        }
+      }
+    });
+  }
+}

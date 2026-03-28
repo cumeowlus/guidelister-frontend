@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { Guide } from '../../models/guide';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-my-guides',
   templateUrl: './my-guides.component.html',
-  standalone: false
+  standalone: true,
+  imports: [FormsModule, CommonModule]
 })
 export class MyGuidesComponent implements OnInit {
   guides: Guide[] = [];
@@ -16,16 +19,19 @@ export class MyGuidesComponent implements OnInit {
   constructor(private api: ApiService, private router: Router) { }
 
   ngOnInit(): void {
-    this.api.getGuides().subscribe(g => {
-      // filter to guides where current user is authorized, if backend returns all guides then filter here
-      this.guides = g.filter(guide => {
-        // if authorizedUsers provided, check presence; otherwise assume backend already filtered
-        // safe check:
-        if (!guide.authorizedUsers) return true;
-        // current user id not available here; backend ideally returns only authorized guides
+    /*this.api.getGuides().subscribe(g => {
+      this.guides = g; g.filter(guide => {
         return true;
       });
-      this.applyFilter();
+    });*/
+    this.api.getGuides().subscribe({
+      next: (g) => {
+        console.log('guides from API', g, 'length', g.length);
+        this.guides = g;
+        this.filtered = g;
+        console.log('guides var : ', this.guides)
+      },
+      error: (err) => console.error('getGuides error', err)
     });
   }
 

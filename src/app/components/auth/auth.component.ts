@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  standalone: false
+  standalone: true,
+  imports: [FormsModule, CommonModule]
 })
 export class AuthComponent {
   email = '';

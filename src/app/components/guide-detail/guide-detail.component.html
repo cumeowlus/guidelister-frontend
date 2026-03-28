@@ -1,10 +1,10 @@
 <div class="container" *ngIf="!loading">
   <div *ngIf="error" class="text-danger">{{ error }}</div>
-  <div *ngIf="guide">
-    <h2>{{ guide.titre }}</h2>
-    <p>{{ guide.description }}</p>
-    <p><strong>Durée:</strong> {{ guide.nbJour }} jours</p>
-    <p><strong>Mobilité:</strong> {{ guide.mobilite }}</p>
+  <div *ngIf="guide as g">
+    <h2>{{ g.titre }}</h2>
+    <p>{{ g.description }}</p>
+    <p><strong>Durée:</strong> {{ g.nbJour }} jours</p>
+    <p><strong>Mobilité:</strong> {{ g.mobilite }}</p>
     <h4>Activités</h4>
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let a of guide.activites">
@@ -15,4 +15,6 @@
     </ul>
   </div>
 </div>
-<div *ngIf="loading" class="container"><p>Chargement...</p></div>
+<div *ngIf="loading" class="container">
+  <p>Chargement...</p>
+</div>

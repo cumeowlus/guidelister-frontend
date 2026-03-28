@@ -6,7 +6,7 @@ import { User } from '../../models/user';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  standalone: false
+  standalone: true
 })
 export class HeaderComponent implements OnInit {
   userEmail = '';

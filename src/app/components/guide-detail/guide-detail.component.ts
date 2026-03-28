@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { Guide } from '../../models/guide';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-guide-detail',
   templateUrl: './guide-detail.component.html',
-  standalone: false
+  standalone: true,
+  imports: [FormsModule, CommonModule]
 })
 export class GuideDetailComponent implements OnInit {
   guide?: Guide;

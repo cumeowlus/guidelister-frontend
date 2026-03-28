@@ -59,7 +59,8 @@
               "buildTarget": "guidelister-frontend:build:production"
             },
             "development": {
-              "buildTarget": "guidelister-frontend:build:development"
+              "buildTarget": "guidelister-frontend:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
