@@ -11,7 +11,7 @@ import { Activity } from '../models/activity';
 export class ApiService {
   private base = '/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Auth endpoints
   login(email: string, password: string): Observable<any> {
@@ -32,9 +32,9 @@ export class ApiService {
     return this.http.get<User>(`${this.base}/auth/me`, { withCredentials: true });
   }
 
-  // Guides for current user (get all guides; frontend will filter those user is authorized for or backend can provide)
-  getGuides(): Observable<Guide[]> {
-    return this.http.get<Guide[]>(`${this.base}/guides`, { withCredentials: true });
+  // Guides for current user
+  getGuides(userId: number): Observable<Guide[]> {
+    return this.http.get<Guide[]>(`${this.base}/guides/user/${userId}`, { withCredentials: true });
   }
 
   // Get single guide by id (including activities)

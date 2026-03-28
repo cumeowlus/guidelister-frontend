@@ -7,7 +7,7 @@ import { GuideDetailComponent } from './components/guide-detail/guide-detail.com
 export const routes: Routes = [
   { path: 'login', component: AuthComponent },
   { path: 'my-guides', component: MyGuidesComponent },
-  { path: 'guide/:id', component: GuideDetailComponent },
+  { path: 'my-guides/:id', component: GuideDetailComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 
