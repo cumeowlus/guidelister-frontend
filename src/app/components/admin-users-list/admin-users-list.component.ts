@@ -24,7 +24,7 @@ export class AdminUsersListComponent implements OnInit {
     this.loading = true;
     this.api.getUsers().subscribe({
       next: u => {
-        this.users = u;
+        this.users = (u || []).map(user => this.normalizeUser(user));
         this.loading = false;
         this.cdr.markForCheck();
       },
@@ -50,5 +50,14 @@ export class AdminUsersListComponent implements OnInit {
 
   addUser() {
     this.router.navigate(['/admin/users/new']);
+  }
+
+  private normalizeUser(u: any): User {
+    // Normalise différents noms possibles renvoyés par le backend et force un booléen
+    const isAdminValue = u?.isAdmin ?? u?.admin ?? u?.is_admin;
+    return {
+      ...u,
+      isAdmin: !!(isAdminValue === true || isAdminValue === 'true' || isAdminValue === 1 || isAdminValue === '1')
+    };
   }
 }
