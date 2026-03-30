@@ -26,6 +26,10 @@
           <div class="text-muted">{{ a?.description }}</div>
           <div class="text-muted">{{ a?.adresse }}</div>
           <div class="text-muted">{{ a?.categorie }}</div>
+          <div class="text-muted">{{ a?.nbJours }} jours</div>
+          <div class="text-muted">{{ a?.horaires }}</div>
+          <div class="text-muted">{{ a?.siteWeb }}</div>
+          <div class="text-muted">{{ a?.telephone }}</div>
         </div>
         <div>
           <button class="btn btn-danger btn-sm" (click)="deleteActivityFromGuide(a.id)">Supprimer</button>
@@ -36,6 +40,14 @@
       Aucune activité.
     </li>
   </ul>
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-primary" (click)="openAddActivityModal()">Ajouter activité</button>
+  </div>
+
+  <!-- modal component (composant séparé) -->
+  <app-admin-add-activity-modal *ngIf="showAddActivityModal" [guideId]="currentGuideId"
+    (saved)="onActivitySaved($event)" (close)="closeAddActivityModal()">
+  </app-admin-add-activity-modal>
 
   <h4>Utilisateurs associés</h4>
   <ul class="list-group">
@@ -79,5 +91,4 @@
       Aucun utilisateur trouvé.
     </div>
   </div>
-
 </div>

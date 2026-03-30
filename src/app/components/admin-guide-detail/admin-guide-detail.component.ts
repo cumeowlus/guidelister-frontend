@@ -6,11 +6,12 @@ import { Activity } from '../../models/activity';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../models/user';
+import { AdminAddActivityModalComponent } from '../admin-add-activity-modal/admin-add-activity-modal.component';
 
 @Component({
   selector: 'app-admin-guide-detail',
   templateUrl: './admin-guide-detail.component.html',
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, AdminAddActivityModalComponent]
 })
 export class AdminGuideDetailComponent implements OnInit, OnDestroy {
   guide!: Guide;
@@ -18,6 +19,7 @@ export class AdminGuideDetailComponent implements OnInit, OnDestroy {
   currentGuideId!: number;
   authorizedUsers: User[] = [];
   error = '';
+  showAddActivityModal = false;
 
   // recherche inline
   showUserSearch = false;
@@ -77,6 +79,20 @@ export class AdminGuideDetailComponent implements OnInit, OnDestroy {
         this.cdr.markForCheck();
       }
     })
+  }
+
+  openAddActivityModal() {
+    this.showAddActivityModal = true;
+  }
+
+  closeAddActivityModal() {
+    this.showAddActivityModal = false;
+  }
+
+  onActivitySaved(saved: any) {
+    // rafraîchir le guide pour afficher la nouvelle activité
+    this.closeAddActivityModal();
+    this.loadGuide(this.currentGuideId);
   }
 
   edit() {

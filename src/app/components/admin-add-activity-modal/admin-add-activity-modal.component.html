@@ -1,0 +1,79 @@
+<!-- Backdrop -->
+<div class="modal-backdrop fade show"></div>
+
+<!-- Modal dialog -->
+<div class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter une activité</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="onClose()"></button>
+            </div>
+
+            <form #f="ngForm" (ngSubmit)="submit(f)" novalidate>
+                <div class="modal-body">
+                    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label" for="ordreVisite">Ordre visite</label>
+                            <input id="ordreVisite" name="ordreVisite" type="number" class="form-control"
+                                [(ngModel)]="activity.ordreVisite" />
+                        </div>
+
+                        <div class="col-md-8">
+                            <label class="form-label" for="titre">Titre</label>
+                            <input id="titre" name="titre" class="form-control" required [(ngModel)]="activity.titre"
+                                #titre="ngModel" />
+                            <div *ngIf="titre.invalid && titre.touched" class="form-text text-danger">Le titre est
+                                requis.</div>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label" for="description">Description</label>
+                            <textarea id="description" name="description" class="form-control"
+                                [(ngModel)]="activity.description"></textarea>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label" for="adresse">Adresse</label>
+                            <input id="adresse" name="adresse" class="form-control" [(ngModel)]="activity.adresse" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="categorie">Categorie</label>
+                            <input id="categorie" name="categorie" class="form-control"
+                                [(ngModel)]="activity.categorie" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label" for="horaires">Horaires</label>
+                            <input id="horaires" name="horaires" class="form-control" [(ngModel)]="activity.horaires" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="nbJours">Nombre de jours</label>
+                            <input id="nbJours" name="nbJours" type="number" min="1" class="form-control"
+                                [(ngModel)]="activity.nbJours" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label" for="siteWeb">Site web</label>
+                            <input id="siteWeb" name="siteWeb" class="form-control" [(ngModel)]="activity.siteWeb" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="telephone">Téléphone</label>
+                            <input id="telephone" name="telephone" class="form-control"
+                                [(ngModel)]="activity.telephone" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="onClose()">Annuler</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="submitting || f.invalid">
+                        {{ submitting ? 'Envoi...' : 'Ajouter' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
