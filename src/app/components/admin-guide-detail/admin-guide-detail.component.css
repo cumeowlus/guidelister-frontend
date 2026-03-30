@@ -1,0 +1,22 @@
+.listItemContent {
+    display: flex;
+}
+
+.btnSuppression {
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 40px;
+    height: 40px;
+}
+
+.listItemContentText {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.itemActivityOrder {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 20px;
+}

@@ -1,0 +1,40 @@
+<div class="container py-3">
+  <h2 class="mb-4">{{ isEdit ? 'Modifier le guide' : 'Ajouter un guide' }}</h2>
+
+  <form [(ngModel)]="form" (ngSubmit)="save()">
+    <div class="mb-3">
+      <label class="form-label">Prénom</label>
+      <input class="form-control" formControlName="firstName" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Nom</label>
+      <input class="form-control" formControlName="lastName" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input class="form-control" formControlName="email" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Téléphone</label>
+      <input class="form-control" formControlName="phone" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Bio</label>
+      <textarea class="form-control" formControlName="bio"></textarea>
+    </div>
+
+    <div class="mt-2">
+      <div *ngIf="isEdit" class="container">
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+      <div *ngIf="!isEdit" class="container">
+        <button type="submit" class="btn btn-primary">Créer</button>
+      </div>
+      <button class="btn btn-secondary" (click)="goToAdminGuidesInterface()">Annuler</button>
+    </div>
+  </form>
+</div>

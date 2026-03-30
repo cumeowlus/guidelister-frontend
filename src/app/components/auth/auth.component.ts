@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-auth',
@@ -20,7 +21,13 @@ export class AuthComponent {
   login() {
     this.error = '';
     this.api.login(this.email, this.password).subscribe({
-      next: () => this.router.navigate(['/my-guides']),
+      next: (u: User) => {
+        if (u.isAdmin) {
+          this.router.navigate(['/admin'])
+        } else {
+          this.router.navigate(['/my-guides'])
+        }
+      },
       error: (err) => this.error = err?.error?.error || 'Login failed'
     });
   }
