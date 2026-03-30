@@ -14,7 +14,6 @@ export const routes: Routes = [
   { path: 'login', component: AuthComponent },
   { path: 'my-guides', component: MyGuidesComponent },
   { path: 'my-guides/:id', component: GuideDetailComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'admin', component: AdminHomeComponent },
   { path: 'admin/guides', component: AdminGuidesListComponent },
   { path: 'admin/guides/new', component: AdminGuideFormComponent },
@@ -22,6 +21,8 @@ export const routes: Routes = [
   { path: 'admin/guides/:id/edit', component: AdminGuideFormComponent },
   { path: 'admin/users', component: AdminUsersListComponent },
   { path: 'admin/users/new', component: AdminUserFormComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' }
+
 ];
 
 @NgModule({

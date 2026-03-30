@@ -1,40 +1,51 @@
 <div class="container py-3">
   <h2 class="mb-4">{{ isEdit ? 'Modifier le guide' : 'Ajouter un guide' }}</h2>
 
-  <form [(ngModel)]="form" (ngSubmit)="save()">
+  <form #f="ngForm" (ngSubmit)="save(f)" novalidate>
     <div class="mb-3">
-      <label class="form-label">Prénom</label>
-      <input class="form-control" formControlName="firstName" />
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Nom</label>
-      <input class="form-control" formControlName="lastName" />
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Email</label>
-      <input class="form-control" formControlName="email" />
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Téléphone</label>
-      <input class="form-control" formControlName="phone" />
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Bio</label>
-      <textarea class="form-control" formControlName="bio"></textarea>
-    </div>
-
-    <div class="mt-2">
-      <div *ngIf="isEdit" class="container">
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      <label class="form-label" for="titre">Titre</label>
+      <input id="titre" name="titre" class="form-control" required [(ngModel)]="guide.titre" #titre="ngModel" />
+      <div *ngIf="titre.invalid && titre.touched" class="form-text text-danger">
+        Le titre est requis.
       </div>
-      <div *ngIf="!isEdit" class="container">
-        <button type="submit" class="btn btn-primary">Créer</button>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="description">Description</label>
+      <textarea id="description" name="description" class="form-control" [(ngModel)]="guide.description"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="mobilite">Mobilité</label>
+      <input id="mobilite" name="mobilite" class="form-control" [(ngModel)]="guide.mobilite" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="nbJour">Nombre de jours</label>
+      <input id="nbJour" name="nbJour" type="number" min="1" class="form-control" required [(ngModel)]="guide.nbJour"
+        #nbJour="ngModel" />
+      <div *ngIf="nbJour.invalid && nbJour.touched" class="form-text text-danger">
+        Indiquez un nombre de jours valide.
       </div>
-      <button class="btn btn-secondary" (click)="goToAdminGuidesInterface()">Annuler</button>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="publicCible">Public cible</label>
+      <input id="publicCible" name="publicCible" class="form-control" [(ngModel)]="guide.publicCible" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="saison">Saison</label>
+      <input id="saison" name="saison" class="form-control" [(ngModel)]="guide.saison" />
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary" type="submit" [disabled]="f.invalid || submitting">
+        {{ isEdit ? 'Enregistrer' : 'Créer' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Annuler</button>
     </div>
   </form>
 </div>

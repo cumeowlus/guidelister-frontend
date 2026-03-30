@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
@@ -8,53 +8,88 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-admin-guide-form',
   templateUrl: './admin-guide-form.component.html',
-  imports: [FormsModule, CommonModule]
+  imports: [CommonModule, FormsModule]
 })
 export class AdminGuideFormComponent implements OnInit {
-  form: FormGroup;
+  guide: any = {};
   isEdit = false;
   guideId?: string;
-  loading = false;
   submitting = false;
+  errorMessage = '';
 
   constructor(
-    private fb: FormBuilder,
     private api: ApiService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {
-    this.form = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.email],
-      phone: [''],
-      bio: ['']
-    });
-  }
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEdit = true;
       this.guideId = id;
-      this.api.getGuide(parseInt(id)).subscribe(g => this.form.patchValue(g));
+      this.loadGuide(id);
+    } else {
+      // valeurs par défaut pour la création
+      this.guide = {
+        titre: '',
+        description: '',
+        mobilite: '',
+        nbJour: 1,
+        publicCible: '',
+        saison: ''
+      };
     }
   }
 
-  save() {
-    if (this.form.invalid) return;
+  loadGuide(id: string) {
+    this.api.getGuide(parseInt(id)).subscribe({
+      next: (g) => {
+        this.guide = {
+          titre: (g as any).titre ?? (g as any).title ?? '',
+          description: (g as any).description ?? (g as any).bio ?? '',
+          mobilite: (g as any).mobilite ?? '',
+          nbJour: (g as any).nbJour ?? (g as any).nbJours ?? 1,
+          publicCible: (g as any).publicCible ?? '',
+          saison: (g as any).saison ?? ''
+        };
+        this.cdr.markForCheck();
+
+      },
+      error: () => {
+        this.errorMessage = 'Impossible de charger le guide pour édition.';
+      }
+    });
+  }
+
+  save(form: any) {
+    // form is the NgForm object passed from template
+    if (form.invalid) return;
     this.submitting = true;
-    const payload: Partial<Guide> = this.form.value;
+    this.errorMessage = '';
+
+    const payload: Partial<Guide> = {
+      // envoyer les mêmes clés que le backend attend (ici on envoie titre/description/...).
+      titre: this.guide.titre,
+      description: this.guide.description,
+      mobilite: this.guide.mobilite,
+      nbJour: Number(this.guide.nbJour),
+      publicCible: this.guide.publicCible,
+      saison: this.guide.saison
+    };
+
     if (this.isEdit && this.guideId) {
       this.api.updateGuide(this.guideId, payload).subscribe({
         next: () => this.router.navigate(['/admin/guides', this.guideId]),
-        error: () => { alert('Erreur lors de la mise à jour.'); this.submitting = false; }
+        error: (err) => {
+          this.errorMessage = err?.error?.message || 'Erreur lors de la mise à jour.';
+          this.submitting = false;
+        }
       });
     } else {
-      // Nouveau guide via POST /api/guides/new (endpoint ajouté)
       this.api.createGuide(payload as Guide).subscribe({
         next: (res) => {
-          // Si le backend retourne l'objet créé avec un id, naviguer vers le détail, sinon aller à la liste
           const createdId = res?.id;
           if (createdId) {
             this.router.navigate(['/admin/guides', createdId]);
@@ -62,12 +97,15 @@ export class AdminGuideFormComponent implements OnInit {
             this.router.navigate(['/admin/guides']);
           }
         },
-        error: () => { alert('Erreur lors de la création du guide.'); this.submitting = false; }
+        error: (err) => {
+          this.errorMessage = err?.error?.message || 'Erreur lors de la création.';
+          this.submitting = false;
+        }
       });
     }
   }
 
-  goToAdminGuidesInterface() {
+  cancel() {
     this.router.navigate(['/admin/guides']);
   }
 }

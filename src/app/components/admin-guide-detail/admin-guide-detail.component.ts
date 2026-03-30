@@ -67,8 +67,8 @@ export class AdminGuideDetailComponent implements OnInit {
   }
 
   edit() {
-    if (!this.guide?.id) return;
-    this.router.navigate(['/admin/guides', this.guide.id, 'edit']);
+    if (!this.currentGuideId) return;
+    this.router.navigate(['/admin/guides/', this.currentGuideId, 'edit']);
   }
 
   deleteGuide() {
