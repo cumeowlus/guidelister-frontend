@@ -4,10 +4,7 @@
     <button class="btn btn-primary" (click)="addUser()">Ajouter un utilisateur</button>
   </div>
 
-  <div *ngIf="loading">Chargement...</div>
-  <div *ngIf="error" class="text-danger">{{ error }}</div>
-
-  <table *ngIf="!loading && users.length" class="table table-striped">
+  <table *ngIf="users.length" class="table table-striped">
     <thead>
       <tr>
         <th>Email</th>
