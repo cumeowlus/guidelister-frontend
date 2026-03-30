@@ -1,58 +1,83 @@
 <div class="container py-3">
   <div class="d-flex justify-content-between align-items-start">
     <div>
-      <h2>{{ guide.titre }}</h2>
-      <div class="text-muted">{{ guide.description }}</div>
-      <div class="text-muted">{{ guide.mobilite }}</div>
-      <div class="text-muted">{{ guide.nbJour }} jours</div>
-      <div class="text-muted">{{ guide.publicCible }}</div>
-      <div class="text-muted">{{ guide.saison }}</div>
+      <h2>{{ guide?.titre || guide?.titre }}</h2>
+      <div class="text-muted">{{ guide?.description }}</div>
+      <div class="text-muted">{{ guide?.mobilite }}</div>
+      <div class="text-muted">{{ guide?.nbJour }} jours</div>
+      <div class="text-muted">{{ guide?.publicCible }}</div>
+      <div class="text-muted">{{ guide?.saison }}</div>
     </div>
     <div>
       <button class="btn btn-outline-primary me-2" (click)="edit()">Modifier</button>
       <button class="btn btn-danger me-2" (click)="deleteGuide()">Supprimer</button>
-      <!-- <button class="btn btn-success" (click)="addActivity()">Ajouter une activité</button> -->
-      <button class="btn btn-secondary ms-2" (click)="addUser()">Ajouter un utilisateur</button>
     </div>
   </div>
+
 
   <hr />
 
   <h4>Activités</h4>
   <ul class="list-group mb-3">
-    <li *ngFor="let a of guide.activites" class="list-group-item">
-      <div class="listItemContent">
-        <div class="itemActivityOrder">
-          <h1>{{ a.ordreVisite }}</h1>
+    <li *ngFor="let a of (guide?.activites || guide?.activites)" class="list-group-item">
+      <div class="listItemContent d-flex justify-content-between align-items-start">
+        <div>
+          <strong>{{ a?.titre }}</strong>
+          <div class="text-muted">{{ a?.description }}</div>
+          <div class="text-muted">{{ a?.adresse }}</div>
+          <div class="text-muted">{{ a?.categorie }}</div>
         </div>
-        <div class="listItemContentText">
-          <strong>{{ a.titre }}</strong>
-          <div class="text-muted">{{ a.description || '' }}</div>
-          <div class="text-muted">{{ a.adresse }}</div>
-          <div class="text-muted">{{ a.categorie }}</div>
-          <div class="text-muted">{{ a.horaires }}</div>
-          <div class="text-muted">{{ a.nbJours }} jours</div>
-          <div class="text-muted">{{ a.siteWeb }}</div>
-          <div class="text-muted">{{ a.telephone }}</div>
+        <div>
+          <button class="btn btn-danger btn-sm" (click)="deleteActivityFromGuide(a.id)">Supprimer</button>
         </div>
-        <button class="btn btn-danger btnSuppression" (click)="deleteActivityFromGuide(a.id)">
-          <i class="bi bi-trash-fill"></i>
-        </button>
       </div>
+    </li>
+    <li *ngIf="!(guide?.activites)?.length" class="list-group-item text-muted">
+      Aucune activité.
     </li>
   </ul>
 
   <h4>Utilisateurs associés</h4>
   <ul class="list-group">
-    <li *ngFor="let authorizedUser of authorizedUsers" class="list-group-item">
-      <div class="listItemContent">
-        <div class="listItemContentText">
-          <strong>ID : {{ authorizedUser.id }} - Email : {{ authorizedUser.email }}</strong>
-        </div>
-        <button class="btn btn-danger btnSuppression" (click)="deleteUserFromGuide(authorizedUser.id)">
-          <i class="bi bi-trash-fill"></i>
-        </button>
+    <li *ngFor="let authorizedUser of authorizedUsers"
+      class="list-group-item d-flex justify-content-between align-items-center">
+      <div>
+        <strong>ID : {{ authorizedUser.id }} - Email : {{ authorizedUser.email || '—' }}</strong>
+      </div>
+      <div>
+        <button class="btn btn-danger btn-sm" (click)="deleteUserFromGuide(authorizedUser.id)">Retirer</button>
       </div>
     </li>
+    <li *ngIf="!authorizedUsers?.length" class="list-group-item text-muted">
+      Aucun utilisateur associé.
+    </li>
   </ul>
+
+  <div class="mb-3">
+    <div class="input-group">
+      <input #userSearchInput type="text" class="form-control" placeholder="Rechercher un utilisateur (email ou id)..."
+        [(ngModel)]="userSearchTerm" (input)="onUserSearchInput()" name="userSearchTerm" />
+      <button class="btn btn-outline-secondary" type="button" (click)="performSearch()">Rechercher</button>
+    </div>
+
+    <div *ngIf="searchLoading" class="mt-2">Recherche en cours...</div>
+    <div *ngIf="searchError" class="text-danger mt-2">{{ searchError }}</div>
+
+    <ul class="list-group mt-2" *ngIf="searchResults?.length">
+      <li *ngFor="let u of searchResults" class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{ u.email || ('#' + u.id) }}</strong>
+          <div class="text-muted">ID: {{ u.id }}</div>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-primary me-2" (click)="addExistingUserToGuide(u)">Ajouter</button>
+        </div>
+      </li>
+    </ul>
+
+    <div *ngIf="!searchLoading && !searchResults?.length && userSearchTerm" class="mt-2 text-muted">
+      Aucun utilisateur trouvé.
+    </div>
+  </div>
+
 </div>
