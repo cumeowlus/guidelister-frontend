@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-admin-guides-list',
   templateUrl: './admin-guides-list.component.html',
-  styles: './admin-guides-list.component.css',
+  styleUrl: './admin-guides-list.component.css',
   imports: [FormsModule, CommonModule]
 })
 export class AdminGuidesListComponent implements OnInit {
@@ -54,5 +54,9 @@ export class AdminGuidesListComponent implements OnInit {
 
   addGuide() {
     this.router.navigate(['/admin/guides/new']);
+  }
+
+  navBack() {
+    this.router.navigate(['/admin']);
   }
 }

@@ -11,6 +11,7 @@ import { AdminAddActivityModalComponent } from '../admin-add-activity-modal/admi
 @Component({
   selector: 'app-admin-guide-detail',
   templateUrl: './admin-guide-detail.component.html',
+  styleUrl: './admin-guide-detail.component.css',
   imports: [CommonModule, FormsModule, AdminAddActivityModalComponent]
 })
 export class AdminGuideDetailComponent implements OnInit, OnDestroy {
@@ -208,5 +209,9 @@ export class AdminGuideDetailComponent implements OnInit, OnDestroy {
       next: () => this.loadGuide(this.currentGuideId),
       error: () => alert('Erreur lors de la suppression.')
     });
+  }
+
+  navBack() {
+    this.router.navigate(['/admin/guides']);
   }
 }

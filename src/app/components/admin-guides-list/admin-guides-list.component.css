@@ -1,0 +1,12 @@
+.list-group-item-action {
+  transition: 0.4s;
+}
+
+.list-group-item-action:hover {
+  cursor: pointer;
+  background-color: rgb(246, 246, 246);
+}
+
+.backButton {
+  margin-bottom: 30px;
+}

@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-admin-users-list',
   templateUrl: './admin-users-list.component.html',
+  styleUrl: './admin-users-list.component.css',
   imports: [CommonModule]
 })
 export class AdminUsersListComponent implements OnInit {
@@ -59,5 +60,9 @@ export class AdminUsersListComponent implements OnInit {
       ...u,
       isAdmin: !!(isAdminValue === true || isAdminValue === 'true' || isAdminValue === 1 || isAdminValue === '1')
     };
+  }
+
+  navBack() {
+    this.router.navigate(['/admin']);
   }
 }

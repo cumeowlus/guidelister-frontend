@@ -1,4 +1,10 @@
 <div class="container py-3">
+
+  <button class="btn btn-outline-primary btn-sm backButton" (click)="navBack()">
+    <i class="bi bi-arrow-left"></i>
+  </button>
+
+
   <div class="d-flex justify-content-between align-items-start">
     <div>
       <h2>{{ guide?.titre }}</h2>
@@ -9,8 +15,8 @@
       <div class="text-muted">{{ guide?.saison }}</div>
     </div>
     <div>
-      <button class="btn btn-outline-primary me-2" (click)="edit()">Modifier</button>
-      <button class="btn btn-danger me-2" (click)="deleteGuide()">Supprimer</button>
+      <button class="btn btn-outline-primary me-2" (click)="edit()"><i class="bi bi-pencil-square"></i></button>
+      <button class="btn btn-danger me-2" (click)="deleteGuide()"><i class="bi bi-trash"></i></button>
     </div>
   </div>
 
@@ -32,7 +38,8 @@
           <div class="text-muted">{{ a?.telephone }}</div>
         </div>
         <div>
-          <button class="btn btn-danger btn-sm" (click)="deleteActivityFromGuide(a.id)">Supprimer</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteActivityFromGuide(a.id)"><i
+              class="bi bi-trash"></i></button>
         </div>
       </div>
     </li>
@@ -41,7 +48,8 @@
     </li>
   </ul>
   <div class="d-flex justify-content-end">
-    <button type="button" class="btn btn-primary" (click)="openAddActivityModal()">Ajouter activité</button>
+    <button type="button" class="btn btn-primary" (click)="openAddActivityModal()">Ajouter activité <i
+        class="bi bi-plus-lg"></i></button>
   </div>
 
   <!-- modal component (composant séparé) -->
@@ -57,7 +65,8 @@
         <strong>ID : {{ authorizedUser.id }} - Email : {{ authorizedUser.email || '—' }}</strong>
       </div>
       <div>
-        <button class="btn btn-danger btn-sm" (click)="deleteUserFromGuide(authorizedUser.id)">Retirer</button>
+        <button class="btn btn-danger btn-sm" (click)="deleteUserFromGuide(authorizedUser.id)"><i
+            class="bi bi-trash"></i></button>
       </div>
     </li>
     <li *ngIf="!authorizedUsers?.length" class="list-group-item text-muted">
@@ -69,7 +78,8 @@
     <div class="input-group">
       <input #userSearchInput type="text" class="form-control" placeholder="Rechercher un utilisateur (email ou id)..."
         [(ngModel)]="userSearchTerm" (input)="onUserSearchInput()" name="userSearchTerm" />
-      <button class="btn btn-outline-secondary" type="button" (click)="performSearch()">Rechercher</button>
+      <button class="btn btn-outline-secondary" type="button" (click)="performSearch()"><i
+          class="bi bi-search"></i></button>
     </div>
 
     <div *ngIf="searchLoading" class="mt-2">Recherche en cours...</div>
@@ -82,7 +92,8 @@
           <div class="text-muted">ID: {{ u.id }}</div>
         </div>
         <div>
-          <button class="btn btn-sm btn-primary me-2" (click)="addExistingUserToGuide(u)">Ajouter</button>
+          <button class="btn btn-sm btn-primary me-2" (click)="addExistingUserToGuide(u)"><i
+              class="bi bi-plus-lg"></i></button>
         </div>
       </li>
     </ul>

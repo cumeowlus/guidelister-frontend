@@ -1,7 +1,12 @@
 <div class="container py-3">
+
+  <button class="btn btn-outline-primary btn-sm backButton" (click)="navBack()">
+    <i class="bi bi-arrow-left"></i>
+  </button>
+
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Gérer les utilisateurs</h2>
-    <button class="btn btn-primary" (click)="addUser()">Ajouter un utilisateur</button>
+    <button class="btn btn-primary" (click)="addUser()"><i class="bi bi-plus-lg"></i></button>
   </div>
 
   <table *ngIf="users.length" class="table table-striped">
@@ -9,15 +14,17 @@
       <tr>
         <th>Email</th>
         <th>Admin</th>
-        <th>Actions</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let u of users">
         <td>{{ u.email }}</td>
-        <td>{{ u.isAdmin ? 'Oui' : 'Non' }}</td>
         <td>
-          <button class="btn btn-sm btn-danger" (click)="deleteUser(u)">Supprimer</button>
+          <div *ngIf="u.isAdmin"> <i class="bi bi-check-lg checkAdmin"></i></div>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-danger btnDelete" (click)="deleteUser(u)"><i class="bi bi-trash"></i></button>
         </td>
       </tr>
     </tbody>
