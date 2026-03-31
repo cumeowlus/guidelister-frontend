@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-guide-detail',
   templateUrl: './guide-detail.component.html',
+  styleUrl: './guide-detail.component.css',
   standalone: true,
   imports: [FormsModule, CommonModule]
 })

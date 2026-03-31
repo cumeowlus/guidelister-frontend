@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-admin-guides-list',
   templateUrl: './admin-guides-list.component.html',
+  styles: './admin-guides-list.component.css',
   imports: [FormsModule, CommonModule]
 })
 export class AdminGuidesListComponent implements OnInit {

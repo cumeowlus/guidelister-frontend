@@ -9,6 +9,7 @@ import { User } from '../../models/user';
 @Component({
   selector: 'app-my-guides',
   templateUrl: './my-guides.component.html',
+  styleUrl: './my-guides.component.css',
   standalone: true,
   imports: [FormsModule, CommonModule]
 })
